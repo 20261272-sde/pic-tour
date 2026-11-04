@@ -450,7 +450,34 @@ async function downloadTicket() {
   if (!window.html2canvas) { $("shareStatus").textContent = "이미지 저장 기능을 불러오지 못했어요. 인터넷 연결을 확인하거나 화면을 캡처해 주세요."; return; }
   $("shareStatus").textContent = "티켓 이미지를 만드는 중…";
   try {
-    const canvas = await html2canvas($("ticketWrap"), { scale: 2, useCORS: true, backgroundColor: null });
+    const canvas = await html2canvas($("ticketWrap"), {
+      scale: Math.max(3, window.devicePixelRatio || 1),
+      useCORS: true,
+      backgroundColor: "#fbf8f3", // 티켓 바깥 무대 색 (노치 구멍과 같은 색)
+      onclone: (clonedDoc) => {
+        // html2canvas는 복제본에서 등장 애니메이션을 처음부터 다시 재생하고(반투명하게 찍힘),
+        // radial-gradient 노치를 뿌연 막으로 그리기 때문에 저장용으로만 단순한 모양으로 바꿔요.
+        const style = clonedDoc.createElement("style");
+        style.textContent = `
+          *{animation:none!important;transition:none!important}
+          .ticket{filter:none!important;opacity:1!important;transform:none!important}
+          .ticket-main,.ticket-stub{background-image:none!important}
+          .ticket-stub::after{display:none!important}
+          .ticket-stub{border-left:2px dashed #d9c9ad}
+          @media (max-width:900px){.ticket-stub{border-left:0;border-top:2px dashed #d9c9ad}}
+          .t-notch{position:absolute;width:28px;height:28px;border-radius:50%;background:#fbf8f3;z-index:5}`;
+        clonedDoc.head.appendChild(style);
+        clonedDoc.querySelectorAll(".ticket-main, .ticket-stub").forEach((part) => {
+          [["-14px", "-14px", null, null], ["-14px", null, null, "-14px"], [null, "-14px", "-14px", null], [null, null, "-14px", "-14px"]]
+            .forEach(([top, left, bottom, right]) => {
+              const n = clonedDoc.createElement("span");
+              n.className = "t-notch";
+              Object.assign(n.style, { top: top || "auto", left: left || "auto", bottom: bottom || "auto", right: right || "auto" });
+              part.appendChild(n);
+            });
+        });
+      }
+    });
     const a = document.createElement("a");
     a.download = `pic-tour-${state.dest.code}.png`;
     a.href = canvas.toDataURL("image/png");
