@@ -1,0 +1,9 @@
+.DS_Store
+Thumbs.db
+.vscode/
+
+# 루트의 원본 사진(한글 파일명)은 업로드하지 않음 — 사이트는 images/ 폴더만 사용
+/*.jpg
+/*.JPG
+/*.jpeg
+/*.png

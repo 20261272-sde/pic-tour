@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fbf8f3" />
+  <title>Pic-Tour | 사진 몇 장으로 찾는 내 여행 취향</title>
+  <meta name="description" content="검색은 그만, 사진 보고 떠나요. 끌리는 사진만 고르면 내 취향 저격 여행지를 탑승권으로 발권해 드려요." />
+  <!-- 링크 공유 미리보기 (카카오톡·SNS) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Pic-Tour ✈ 사진으로 찾는 내 여행 취향" />
+  <meta property="og:description" content="끌리는 사진만 골라보세요. 내 취향 저격 여행지 티켓 발권하고, 친구랑 여행 궁합까지!" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✈️</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Instrument+Serif:ital@0;1&family=Dancing+Script:wght@600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Pic-Tour 홈"><span class="brand-mark">✈</span>pic<i>·</i>tour</a>
+    <span class="top-note"><span class="live-dot"></span>오늘의 여행 출발편</span>
+  </header>
+
+  <main>
+    <!-- 1. 인트로 -->
+    <section id="intro" class="screen intro">
+      <div class="intro-grid">
+        <div class="intro-copy">
+          <p class="eyebrow">사진으로 고르는 국내 여행</p>
+          <h1>검색은 그만,<br>사진 보고 <em>떠나요</em></h1>
+          <p class="lead">여행지 이름은 잠깐 가려둘게요.<br>마음이 먼저 가는 사진만 골라주세요.<br>내 취향 저격 여행지를 탑승권으로 발권해 드려요.</p>
+          <div id="incomingNote"></div>
+          <div class="cta-row">
+            <button id="startBtn" class="btn btn-primary">탑승 수속 시작 <span aria-hidden="true">→</span></button>
+            <span class="micro">1분 컷 · 정답 없음 · 할 때마다 다른 질문</span>
+          </div>
+          <ol class="steps">
+            <li><b>01</b>사진 고르기</li>
+            <li><b>02</b>최종 여행지 택1</li>
+            <li><b>03</b>탑승권 발권</li>
+            <li><b>04</b>친구랑 여행 궁합 보기</li>
+          </ol>
+        </div>
+
+        <div class="intro-visual" aria-hidden="true">
+          <figure class="postcard pc-1"><img src="images/saryeoni.jpg" alt="" /><figcaption>No.01 · 숲</figcaption></figure>
+          <figure class="postcard pc-2"><img src="images/gwangalli.jpg" alt="" /><figcaption>No.02 · 바다</figcaption></figure>
+          <figure class="postcard pc-3"><img src="images/jeonju-eaves.jpg" alt="" /><figcaption>No.03 · 전통</figcaption></figure>
+          <div class="stamp">PIC<br><small>YOUR</small><br>MOOD</div>
+          <div class="mini-pass"><span>BOARDING PASS</span><b>HOME ✈ ?</b><small>목적지는 사진이 정해요</small></div>
+        </div>
+      </div>
+
+      <div class="board" aria-label="출발 안내판">
+        <div class="board-head"><span>DEPARTURES</span><span>출발 안내</span></div>
+        <div id="departureBoard" class="board-rows"></div>
+      </div>
+    </section>
+
+    <!-- 2. 사진 고르기 -->
+    <section id="quiz" class="screen quiz hidden">
+      <div class="quiz-top">
+        <button id="prevBtn" class="ghost-btn" type="button">← 이전</button>
+        <div class="flight" aria-hidden="true">
+          <span>출발</span>
+          <div class="flight-track"><div id="flightFill" class="flight-fill"></div><span id="plane" class="plane">✈</span></div>
+          <span>도착</span>
+        </div>
+        <span class="round-count"><b id="roundNumber">01</b> / <span id="roundTotal">08</span></span>
+      </div>
+      <div class="question">
+        <p id="qTag" class="eyebrow">SCENE 01</p>
+        <h2 id="qTitle"></h2>
+        <p id="qHint" class="hint"></p>
+      </div>
+      <div id="choices" class="choices"></div>
+    </section>
+
+    <!-- 3. 결과 -->
+    <section id="result" class="screen result hidden">
+      <div id="compare"></div>
+
+      <div class="result-head">
+        <p class="eyebrow">TICKET ISSUED · 발권 완료</p>
+        <h2><span id="resultTypeName">숲결 산책자</span>님의 다음 여행지는<br><em id="resultDestName">사려니숲길</em>! 티켓 나왔어요</h2>
+      </div>
+
+      <div class="ticket-stage">
+        <div id="ticketWrap" class="ticket-wrap">
+          <article id="ticket" class="ticket">
+            <div class="ticket-main">
+              <p class="tm-head"><i></i>PIC-TOUR · 취향 여행 탑승권<i></i></p>
+              <div class="tm-body">
+                <div class="tm-art" aria-hidden="true">
+                  <div id="tPhoto" class="tm-photo"></div>
+                  <span class="tm-tape"></span>
+                  <span class="tm-postmark"><small>PIC-TOUR</small><b id="tPostCode">CJU</b><small id="tPostDate">11.04</small></span>
+                  <span class="spark s1">✦</span><span class="spark s2">✦</span><span class="spark s3">✦</span>
+                </div>
+                <div class="tm-info">
+                  <div class="tm-route"><b>HOME</b><span class="tm-line"><i></i>✈<i></i></span><b id="tCode">CJU</b></div>
+                  <h3 id="tDestName" class="tm-title">사려니숲길</h3>
+                  <p id="tTypeEn" class="tm-script">Forest Walker</p>
+                  <p id="tRegion" class="tm-region">제주특별자치도</p>
+                  <div class="tm-fields">
+                    <div><small><em>◷</em>DATE</small><b id="tDate">2026.11.04</b></div>
+                    <div><small><em>✈</em>BOARDING</small><b id="tTime">06:30</b></div>
+                    <div><small><em>♡</em>WITH</small><b id="tComp">혼자</b></div>
+                    <div><small><em>✎</em>STYLE</small><b id="tPace">여유로운 일정</b></div>
+                  </div>
+                </div>
+              </div>
+              <p class="tm-pill"><span>✦</span><span id="tKeywords">초록 · 고요 · 회복</span><span>✦</span></p>
+            </div>
+            <div class="ticket-stub">
+              <p class="ts-head"><i></i>TICKET<i></i></p>
+              <div class="ts-no">No.<b id="tSeat">CJU-123</b></div>
+              <dl class="ts-list">
+                <div><dt>PASSENGER</dt><dd id="tName">TRAVELER</dd></div>
+                <div><dt>TRAVEL TYPE</dt><dd id="tType">숲결 산책자</dd></div>
+                <div><dt>TASTE MATCH</dt><dd id="tMatch">92%</dd></div>
+              </dl>
+              <div class="ts-barcode"><div id="tBarcode" class="barcode"></div></div>
+              <p id="tSerial" class="ts-serial">FW 20261104 CJU</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="ticket-tools">
+          <label class="name-field">탑승객 이름<input id="passengerName" maxlength="10" placeholder="이름이나 닉네임 (티켓에 찍혀요)" autocomplete="off" /></label>
+          <div class="actions">
+            <button id="downloadBtn" class="btn btn-primary" type="button">티켓 저장하기 ↓</button>
+            <button id="shareBtn" class="btn btn-outline" type="button">같이 갈 사람 소환하기 ↗</button>
+          </div>
+          <p id="shareStatus" class="share-status" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <section class="block type-block">
+        <div class="type-card">
+          <p class="eyebrow">MY TRAVEL TYPE</p>
+          <h3 id="typeName">숲결 산책자</h3>
+          <p id="typeEn" class="type-en">FOREST WALKER</p>
+          <p id="typeTagline" class="type-tagline"></p>
+          <p id="typeDescription" class="type-desc"></p>
+          <div id="typeKeywords" class="chips"></div>
+        </div>
+        <div class="taste-card">
+          <p class="eyebrow">MY TASTE MIX</p>
+          <h4>내가 고른 사진, 취향 비율은?</h4>
+          <div id="tasteBars" class="bars"></div>
+        </div>
+      </section>
+
+      <section class="block plan-block">
+        <div class="block-head">
+          <p class="eyebrow">TRAVEL HELPER · 여행 고민 덜어주기</p>
+          <h3>고민은 여기까지! 이것만 챙기면 출발 준비 끝</h3>
+        </div>
+        <div class="plan-grid">
+          <div class="plan-dest">
+            <div id="planPhoto" class="plan-photo"></div>
+            <div class="plan-info">
+              <span id="planRegion" class="region"></span>
+              <h4 id="planName"></h4>
+              <p id="planDesc"></p>
+            </div>
+          </div>
+          <div class="plan-side">
+            <div class="course">
+              <h5>하루 코스 추천</h5>
+              <ol id="planCourse"></ol>
+            </div>
+            <div id="planFacts" class="facts"></div>
+            <div id="planTips" class="tips"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="block alt-block">
+        <div class="block-head">
+          <p class="eyebrow">OTHER GATES</p>
+          <h3>아깝게 놓친 다음 여행 후보</h3>
+        </div>
+        <div id="altList" class="alt-list"></div>
+      </section>
+
+      <div class="result-footer">
+        <button id="restartBtn" class="btn btn-outline" type="button">다시 해보기 (질문 바뀌어요)</button>
+        <p>Pic-Tour는 사진 취향으로 여행을 가볍게 골라보는 콘텐츠예요. 심리테스트처럼 재미로 즐겨주시고, 방문 전 운영 정보는 공식 안내로 꼭 확인해 주세요.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>pic·tour © 2026</span>
+    <span id="credits" class="credits"></span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
