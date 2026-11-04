@@ -16,6 +16,11 @@ Live Server로 열면 파일을 저장할 때마다 자동으로 새로고침되
 
 이미지 저장 기능은 html2canvas CDN을 사용하므로 인터넷 연결이 필요합니다. 나머지 테스트 흐름은 로컬에서 실행할 수 있습니다.
 
+## 배포 주소
+- 사이트: https://20261272-sde.github.io/pic-tour/
+- 저장소: https://github.com/20261272-sde/pic-tour
+- 수정 후 반영: `git add -A` → `git commit -m "수정 내용"` → `git push` (1~2분 뒤 사이트에 반영)
+
 ## 무료 웹사이트로 배포 (GitHub Pages)
 AI·API·서버 없이 정적 파일만으로 동작하므로 GitHub Pages에 그대로 올리면 됩니다.
 
