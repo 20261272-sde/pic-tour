@@ -48,9 +48,8 @@ function buildQuiz() {
   const photoQs = [...fresh, ...seen].slice(0, PHOTO_ROUNDS);
 
   const F = DATA.fixedQuestions;
-  const order = shuffle([...photoQs, F.time]);
-  order.splice(2, 0, F.comp);   // 사진 질문 사이사이에 동행·일정 질문 배치
-  order.splice(5, 0, F.pace);
+  // 사진 질문을 앞에 이어서 배치하고, 글자 카드(동행·일정)는 뒤에서 마무리 → 최종 택1(사진)로 연결
+  const order = [...shuffle([...photoQs, F.time]), F.comp, F.pace];
 
   const titles = { ...lastTitles };
   const usedImgs = new Set();
@@ -450,6 +449,7 @@ async function downloadTicket() {
   if (!window.html2canvas) { $("shareStatus").textContent = "이미지 저장 기능을 불러오지 못했어요. 인터넷 연결을 확인하거나 화면을 캡처해 주세요."; return; }
   $("shareStatus").textContent = "티켓 이미지를 만드는 중…";
   try {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready; // 웹폰트가 다 불러와진 뒤에 찍어야 글자가 대체 글꼴로 깨지지 않음
     const canvas = await html2canvas($("ticketWrap"), {
       scale: Math.max(3, window.devicePixelRatio || 1),
       useCORS: true,
@@ -464,8 +464,19 @@ async function downloadTicket() {
           .ticket-main,.ticket-stub{background-image:none!important}
           .ticket-stub::after{display:none!important}
           .ticket-stub{border-left:2px dashed #d9c9ad}
-          @media (max-width:900px){.ticket-stub{border-left:0;border-top:2px dashed #d9c9ad}}
-          .t-notch{position:absolute;width:28px;height:28px;border-radius:50%;background:#fbf8f3;z-index:5}`;
+          @media (max-width:1023px){.ticket-stub{border-left:0;border-top:2px dashed #d9c9ad}}
+          .t-notch{position:absolute;width:28px;height:28px;border-radius:50%;background:#fbf8f3;z-index:5}
+          /* html2canvas는 글자를 화면보다 살짝 아래에 그려서, 넘침 자르기가 걸린 칸은 받침이 잘림 → 저장용에서는 자르지 않고 줄 높이를 넉넉히 */
+          .ticket *{overflow:visible!important;text-overflow:clip!important}
+          .ticket h3,.ticket p,.ticket b,.ticket dd,.ticket dt,.ticket small,.ticket span{line-height:1.5!important}
+          .tm-title{line-height:1.3!important;padding-bottom:2px}
+          .tm-script{line-height:1.3!important}
+          .tm-fields b,.ts-list dd{padding-bottom:3px}
+          .tm-pill{padding:7px 20px 9px!important}
+          .ts-no{align-items:center!important;padding:8px 16px 10px!important}
+          /* 자간이 넓은 한글은 글자가 따로 놀아 보여서 저장용에서는 좁힘 */
+          .tm-head,.ts-head{letter-spacing:.12em!important}
+          .tm-pill{letter-spacing:.04em!important}`;
         clonedDoc.head.appendChild(style);
         clonedDoc.querySelectorAll(".ticket-main, .ticket-stub").forEach((part) => {
           [["-14px", "-14px", null, null], ["-14px", null, null, "-14px"], [null, "-14px", "-14px", null], [null, null, "-14px", "-14px"]]
@@ -498,7 +509,7 @@ function readInvite() {
 function renderIncoming() {
   const box = $("incomingNote");
   box.innerHTML = "";
-  $("startBtn").firstChild.textContent = "탑승 수속 시작 ";
+  $("startBtn").firstChild.textContent = "사진 고르고 여행 떠나기 ";
   if (!incoming) return;
   const d = DATA.destinations.find((x) => x.id === incoming.d);
   const note = el("div", "incoming");

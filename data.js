@@ -187,7 +187,7 @@ window.PIC_TOUR_DATA = {
       hint: "고른 시간이 티켓 탑승 시간으로 찍혀요." },
     comp: { id: "comp", kind: "mood",
       titles: ["이번 여행, 누구랑 갈래요?", "내 옆자리 탑승객은 누구?"],
-      hint: "티켓에 동행 정보로 들어가요.",
+      hint: "사진 고르기는 여기까지! 이제 여행 스타일만 정하면 돼요. 고른 동행은 티켓에 찍혀요.",
       choices: [
         { title: "혼행이 최고", sub: "내 속도대로, 내 맘대로", mood: { big: "혼행", icon: "🎧", small: "1 PASSENGER", bg: "linear-gradient(160deg,#e8efe6,#b6cdb5)", ink: "#25392b" }, w: { forest: 1, summit: 1 }, style: { comp: "solo" } },
         { title: "둘이서 오붓하게", sub: "같은 풍경, 같은 추억", mood: { big: "둘이", icon: "💞", small: "2 PASSENGERS", bg: "linear-gradient(160deg,#ffe1dc,#f3a6a0)", ink: "#4a1f22" }, w: { ocean: 1, city: 1 }, style: { comp: "couple" } },
@@ -196,7 +196,7 @@ window.PIC_TOUR_DATA = {
       ] },
     pace: { id: "pace", kind: "mood",
       titles: ["여행 계획, 나는 J예요 P예요?", "여행 전날 밤, 내 메모장 상태는?"],
-      hint: "추천 코스를 내 스타일에 맞춰 드릴게요.",
+      hint: "마지막 질문이에요. 추천 코스를 내 계획 스타일에 맞춰 드릴게요.",
       choices: [
         { title: "엑셀 일정표까지 만드는 극J", sub: "동선, 맛집, 웨이팅 시간까지 완벽 정리", mood: { big: "극J", icon: "📋", small: "09:00 → 21:00", bg: "linear-gradient(160deg,#eef0f4,#c4cad6)", ink: "#1f2633" }, w: { heritage: 1, city: 1 }, style: { pace: "plan" } },
         { title: "큰 틀만 짜는 반J반P", sub: "꼭 갈 곳만 찜, 나머진 그때그때", mood: { big: "반J반P", icon: "🧭", small: "2–3 SPOTS / DAY", bg: "linear-gradient(160deg,#f0ebe1,#d8c8a8)", ink: "#3a2f1c" }, w: { forest: 1, village: 1 }, style: { pace: "balance" } },
